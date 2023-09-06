@@ -5,6 +5,11 @@ on:
     branches:
       - develop
       - testing
+      - production
+  pull_request:
+    types:
+      - opened
+      - synchronize
 
 jobs:
   format:
