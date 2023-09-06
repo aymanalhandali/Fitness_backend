@@ -1,0 +1,74 @@
+name: Black Formatter
+
+on:
+  push:
+    branches:
+      - develop
+      - testing
+      - production
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  format:
+    name: Format Python code with Black
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x #start using matrix to check against 3.x+
+
+    - name: Install dependencies
+      run: pip install black
+
+    - name: Check python version
+      run: python --version
+
+    - name: Create a Python virtual environment
+      run: python -m venv env
+    
+    - name: Activate the virtual environment
+      run: source env/bin/activate
+
+    - name: Install Python Black and flake8
+      run: |
+          pip install black
+          
+    - name: Check Python version in the virtual environment
+      run: python --version
+
+    - name: Run Linters
+      uses: wearerequired/lint-action@v2
+      with:
+        black: required
+        black_args: "--line-length 79"
+          
+    # - name: Format code with Black
+    #   run: black .
+          
+    # - name: Commit formatted code
+    #   run: |
+    #     git config --global user.name "aymanalhandali"
+    #     git config --global user.email "aymanalhandali@outlook.com"
+    #     git add .
+    #     git commit -m "Format code with Black"
+    #     git push
+          
+    # - name: Create Pull Request
+    #   uses: peter-evans/create-pull-request@v4
+    #   with:
+    #       token: ${{ secrets.GITHUB_TOKEN }}
+    #       branch: develop# The branch you want to create the pull request against
+    #       commit-message: "Automated formatting with Black"
+    #       title: "Automated formatting with Black"
+    #       body: "This pull request was automatically created to format the code using Black."
+
+
+
