@@ -1,0 +1,42 @@
+name: Black Formatter
+
+on:
+  push:
+    branches:
+      - develop
+      - testing
+
+jobs:
+  format:
+    name: Format Python code with Black
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.10 #start using matrix to check against 3.x+
+
+    - name: Install dependencies
+      run: pip install black
+
+    - name: Format code with Black
+      run: black .
+
+    - name: Commit changes
+      run: |
+        git config user.name "GitHub Actions"
+        git config user.email ayman.alhandali@outlook.com
+        git add .
+        git commit -m "Auto-format with Black"
+        git push
+
+    - name: Pull request
+      uses: peter-evans/create-pull-request@v3
+      with:
+        title: "Auto-format with Black"
+        commit-message: "Auto-format with Black"
+        branch: auto-format-black
