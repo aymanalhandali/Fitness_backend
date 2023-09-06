@@ -61,7 +61,7 @@ jobs:
         git push
           
     - name: Create Pull Request
-      uses: Fitness_backend/create-pull-request@v4
+      uses: peter-evans/create-pull-request@v4
       with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: develop# The branch you want to create the pull request against
