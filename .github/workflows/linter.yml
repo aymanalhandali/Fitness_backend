@@ -28,20 +28,46 @@ jobs:
     - name: Install dependencies
       run: pip install black
 
+    - name: Check python version
+      run: python --version
+
+    - name: Create a Python virtual environment
+      run: python -m venv env
+    
+    - name: Activate the virtual environment
+      run: source env/bin/activate
+
+    - name: Install Python Black and flake8
+      run: |
+          pip install black
+          pip install flake8
+
+          
+    - name: Check Python version in the virtual environment
+      run: python --version
+
+    - name: Run flake8 for linting
+      run: flake8 .
+          
     - name: Format code with Black
       run: black .
-
-    - name: Commit changes
+          
+    - name: Commit formatted code
       run: |
-        git config user.name "GitHub Actions"
-        git config user.email ayman.alhandali@outlook.com
+        git config --global user.name "aymanalhandali"
+        git config --global user.email "aymanalhandali@outlook.com"
         git add .
-        git commit -m "Auto-format with Black"
+        git commit -m "Format code with Black"
         git push
-
-    - name: Pull request
-      uses: aymanalhandali/create-pull-request@v3
+          
+    - name: Create Pull Request
+      uses: aymanalhandali/create-pull-request@v4
       with:
-        title: "Auto-format with Black"
-        commit-message: "Auto-format with Black"
-        branch: auto-format-black
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: develop# The branch you want to create the pull request against
+          commit-message: "Automated formatting with Black"
+          title: "Automated formatting with Black"
+          body: "This pull request was automatically created to format the code using Black."
+
+
+
