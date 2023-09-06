@@ -40,7 +40,7 @@ jobs:
         git push
 
     - name: Pull request
-      uses: peter-evans/create-pull-request@v3
+      uses: aymanalhandali/create-pull-request@v3
       with:
         title: "Auto-format with Black"
         commit-message: "Auto-format with Black"
